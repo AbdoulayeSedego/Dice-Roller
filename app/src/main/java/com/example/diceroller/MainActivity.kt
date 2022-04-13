@@ -2,7 +2,7 @@ package com.example.diceroller
 
 import android.os.Bundle
 import android.widget.Button
-import android.widget.TextView
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 
 /**
@@ -18,8 +18,11 @@ class MainActivity : AppCompatActivity() {
         val rollButton: Button = findViewById(R.id.button)
         rollButton.setOnClickListener {
             rollDice()
-            // rollSecondDice()
+            secondRollDice()
         }
+        // Do a dice roll when the app starts
+        rollDice()
+        secondRollDice()
 
     }
 
@@ -28,30 +31,58 @@ class MainActivity : AppCompatActivity() {
      */
     private fun rollDice() {
         // Create new Dice object with 6 sides and roll it
+
         val dice = Dice(6)
         val diceRoll = dice.roll()
 
         // Update the screen with the dice roll
-        val resultTextView: TextView = findViewById(R.id.textView)
+        val diceImage: ImageView = findViewById(R.id.imageView)
+
+// Determine which drawable resource ID to use based on the dice roll
+        val drawableResource = when (diceRoll) {
+            1 -> R.drawable.dice_1
+            2 -> R.drawable.dice_2
+            3 -> R.drawable.dice_3
+            4 -> R.drawable.dice_4
+            5 -> R.drawable.dice_5
+            else -> R.drawable.dice_6
+        }
+ // Update the ImageView with the correct drawable resource ID
+        diceImage.setImageResource(drawableResource)
+        diceImage.contentDescription = diceRoll.toString()
 
 
-        resultTextView.text = "You rolled: $diceRoll"
+    }
+    private fun secondRollDice() {
+        // Create new Dice object with 6 sides and roll it
+
+        val dice = Dice(6)
+        val diceRoll = dice.roll()
+
+        // Update the screen with the dice roll
+        val diceImage: ImageView = findViewById(R.id.imageView2)
+
+// Determine which drawable resource ID to use based on the dice roll
+        val drawableResource = when (diceRoll) {
+            1 -> R.drawable.dice_1
+            2 -> R.drawable.dice_2
+            3 -> R.drawable.dice_3
+            4 -> R.drawable.dice_4
+            5 -> R.drawable.dice_5
+            else -> R.drawable.dice_6
+        }
+ // Update the ImageView with the correct drawable resource ID
+        diceImage.setImageResource(drawableResource)
+        diceImage.contentDescription = diceRoll.toString()
+
 
     }
 
-    private fun rollSecondDice(){
-        // Create a second Dice object with 20 sides and roll it
-        val secondDice = Dice(20)
-        val secondDiceRoll = secondDice.roll()
 
-        val resultTextViewSecondDice: TextView = findViewById(R.id.textView2)
-        resultTextViewSecondDice.text = "You rolled: $secondDiceRoll"
-    }
-}
-
-
-class Dice(private val numSides: Int) {
-    fun roll(): Int {
-        return (1..numSides).random()
+    class Dice(private val numSides: Int) {
+//        Do a random dice roll and return the result.
+        fun roll(): Int {
+            return (1..numSides).random()
+        }
     }
 }
